@@ -1,0 +1,36 @@
+<div *ngIf="!!photos">
+  <h1>
+    Photos
+  </h1>
+
+  <table class="table table-responsive table-hover">
+    <thead>
+    <tr>
+      <th scope="col" class="text-center">Id</th>
+      <th scope="col" class="text-center">Album Id</th>
+      <th scope="col">Photo</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let photo of sortedPhotos" (click)="goToPhoto(photo.id)">
+      <td class="text-center">{{photo.id}}</td>
+      <td class="text-center">{{photo.albumId}}</td>
+      <td>{{photo.title}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <pagination [boundaryLinks]="true"
+              [itemsPerPage]="limit"
+              [totalItems]="photos.length"
+              [rotate]="true"
+              [maxSize]="5"
+              [(ngModel)]="currentPage"
+              (pageChanged)="pageChanged($event)"
+              class="pagination-sm"
+              previousText="&lsaquo;"
+              nextText="&rsaquo;"
+              firstText="&laquo;"
+              lastText="&raquo;"></pagination>
+</div>
+
