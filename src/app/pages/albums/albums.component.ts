@@ -1,23 +1,46 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChange} from '@angular/core';
 import {IAlbum} from '../../models/album.model';
 import {AlbumService} from '../../services/albums/albums.service';
 import swal from 'sweetalert2';
+import {ActivatedRoute, Router} from '@angular/router';
+import lodash from 'lodash';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-albums',
   templateUrl: './albums.component.html',
   styleUrls: ['./albums.component.css']
 })
-export class AlbumsComponent implements OnInit {
+export class AlbumsComponent implements OnInit, OnChanges, OnDestroy {
 
   public albums: IAlbum[];
+  public currentPage: number;
+  public limit: number;
+  public sortedAlbums: IAlbum[];
+  public activedRouteSubscription: Subscription;
 
-  constructor(public albumService: AlbumService) {
+  constructor(public router: Router,
+              public activedRoute: ActivatedRoute,
+              public albumService: AlbumService) {
   }
 
   ngOnInit() {
+    this.currentPage = 1;
+    this.limit = 5;
+    this.activedRouteSubscription = this.activedRoute.queryParams.subscribe(
+      (queryParams: any) => {
+        this.currentPage = !!queryParams && !!queryParams['page'] ? parseInt(queryParams['page'], 10) : 1;
+        if (!!this.albums) {
+          this.sort();
+        }
+      }
+    );
+
     this.albumService.getAlbumsList().subscribe(
-      (albums: IAlbum[]) => this.albums = albums,
+      (albums: IAlbum[]) => {
+        this.albums = albums;
+        this.sort();
+      },
       (error: Response) => swal(
         {
           title: `Error ${error.status}`,
@@ -27,6 +50,37 @@ export class AlbumsComponent implements OnInit {
           confirmButtonText: 'OK'
         }
       ));
+  }
+
+  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
+    console.log(changes);
+  }
+
+  ngOnDestroy(): void {
+    if (!!this.activedRouteSubscription) {
+      this.activedRouteSubscription.unsubscribe();
+    }
+  }
+
+  public goToPhotos(id: number) {
+    const queryParams = {
+      album: id
+    };
+    this.router.navigate(['photos'], {queryParams});
+  }
+
+  public pageChanged(event: any): void {
+    const queryParams = {
+      page: event.page
+    };
+    this.router.navigate(['albums'], {queryParams});
+  }
+
+  private sort() {
+    const realPage = this.currentPage - 1;
+    const start = realPage > 0 ? realPage * this.limit : 0;
+    const end = realPage > 0 ? (realPage + 1) * this.limit : this.limit;
+    this.sortedAlbums = lodash.cloneDeep(this.albums).slice(start, end);
   }
 
 }

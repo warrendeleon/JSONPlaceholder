@@ -9,6 +9,7 @@ import {IAlbum} from '../../models/album.model';
 export class AlbumService {
   private apiUrl = `http://jsonplaceholder.typicode.com`;
   private albumsApiURL = `${this.apiUrl}/albums`;
+  private albums: IAlbum[];
 
   constructor(private http: Http) {
 
@@ -20,6 +21,11 @@ export class AlbumService {
   }
 
   public getAlbumsList(): Observable<any> {
+
+    if (!!this.albums) {
+      return Observable.from(this.albums);
+    }
+
     return this.http
                .get(this.albumsApiURL)
                .map((res: Response) => <IAlbum[]>res.json())

@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!!albums">
   <h1>
     Albums
   </h1>
@@ -12,12 +12,25 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let album of albums">
+    <tr *ngFor="let album of sortedAlbums" (click)="goToPhotos(album.id)">
       <td class="text-center">{{album.id}}</td>
       <td class="text-center">{{album.userId}}</td>
       <td>{{album.title}}</td>
     </tr>
     </tbody>
   </table>
+
+  <pagination [boundaryLinks]="true"
+              [itemsPerPage]="limit"
+              [totalItems]="albums.length"
+              [rotate]="true"
+              [maxSize]="5"
+              [(ngModel)]="currentPage"
+              (pageChanged)="pageChanged($event)"
+              class="pagination-sm"
+              previousText="&lsaquo;"
+              nextText="&rsaquo;"
+              firstText="&laquo;"
+              lastText="&raquo;"></pagination>
 </div>
 
