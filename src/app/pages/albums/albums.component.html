@@ -1,10 +1,23 @@
 <div>
   <h1>
-    albums works!
+    Albums
   </h1>
 
-  <p>
-    {{albums | json}}
-  </p>
+  <table class="table table-responsive table-hover">
+    <thead>
+    <tr>
+      <th scope="col" class="text-center">Id</th>
+      <th scope="col" class="text-center">User Id</th>
+      <th scope="col">Album</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let album of albums">
+      <td class="text-center">{{album.id}}</td>
+      <td class="text-center">{{album.userId}}</td>
+      <td>{{album.title}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 
