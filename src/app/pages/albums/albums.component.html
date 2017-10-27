@@ -7,7 +7,7 @@
     <thead>
     <tr>
       <th scope="col" class="text-center">Id</th>
-      <th scope="col" class="text-center">User Id</th>
+      <th scope="col" class="text-center">User</th>
       <th scope="col">Album</th>
     </tr>
     </thead>
@@ -20,17 +20,23 @@
     </tbody>
   </table>
 
-  <pagination [boundaryLinks]="true"
-              [itemsPerPage]="limit"
-              [totalItems]="albums.length"
-              [rotate]="true"
-              [maxSize]="5"
-              [(ngModel)]="currentPage"
-              (pageChanged)="pageChanged($event)"
-              class="pagination-sm"
-              previousText="&lsaquo;"
-              nextText="&rsaquo;"
-              firstText="&laquo;"
-              lastText="&raquo;"></pagination>
+  <div class="row">
+    <div class="hidden-sm-down col-sm-4"></div>
+    <div class="col-12 col-sm-4 pagination">
+      <pagination [boundaryLinks]="true"
+                  [itemsPerPage]="limit"
+                  [totalItems]="albums.length"
+                  [rotate]="true"
+                  [maxSize]="5"
+                  [(ngModel)]="currentPage"
+                  (pageChanged)="pageChanged($event)"
+                  class="pagination-sm"
+                  previousText="&lsaquo;"
+                  nextText="&rsaquo;"
+                  firstText="&laquo;"
+                  lastText="&raquo;"></pagination>
+    </div>
+    <div class="hidden-sm-down col-sm-4"></div>
+  </div>
 </div>
 

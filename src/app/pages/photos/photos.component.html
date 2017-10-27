@@ -1,36 +1,45 @@
-<div *ngIf="!!photos">
+<div *ngIf="!!sortedPhotos">
   <h1>
     Photos
   </h1>
 
-  <table class="table table-responsive table-hover">
-    <thead>
-    <tr>
-      <th scope="col" class="text-center">Id</th>
-      <th scope="col" class="text-center">Album Id</th>
-      <th scope="col">Photo</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let photo of sortedPhotos" (click)="goToPhoto(photo.id)">
-      <td class="text-center">{{photo.id}}</td>
-      <td class="text-center">{{photo.albumId}}</td>
-      <td>{{photo.title}}</td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="searchForm">
+        <input type="text" class="form-control search-bar" placeholder="Search"
+               title="search term" name="searchTerm" formControlName="searchTerm"/>
+      </form>
+    </div>
+  </div>
 
-  <pagination [boundaryLinks]="true"
-              [itemsPerPage]="limit"
-              [totalItems]="photos.length"
-              [rotate]="true"
-              [maxSize]="5"
-              [(ngModel)]="currentPage"
-              (pageChanged)="pageChanged($event)"
-              class="pagination-sm"
-              previousText="&lsaquo;"
-              nextText="&rsaquo;"
-              firstText="&laquo;"
-              lastText="&raquo;"></pagination>
+  <div class="row">
+    <div class="col-12">
+      <div class="card-container" *ngFor="let photo of sortedPhotos">
+        <img [src]="photo.thumbnailUrl" class="card-thumbnail" style="height: 300px; width: 300px;">
+        <div class="overlay text-center" (click)="goToPhoto(photo.id)"><i class="fa fa-search search-icon" aria-hidden="true"></i></div>
+        <div class="card-text">{{photo.title}}</div>
+        <div class="card-footer">Id: {{photo.id}} | Album: {{photo.albumId}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="hidden-sm-down col-sm-4"></div>
+    <div class="col-12 col-sm-4 pagination">
+      <pagination [boundaryLinks]="true"
+                  [itemsPerPage]="limit"
+                  [totalItems]="totalPages"
+                  [rotate]="true"
+                  [maxSize]="5"
+                  [(ngModel)]="currentPage"
+                  (pageChanged)="goToPage($event)"
+                  class="pagination-sm"
+                  previousText="&lsaquo;"
+                  nextText="&rsaquo;"
+                  firstText="&laquo;"
+                  lastText="&raquo;"></pagination>
+    </div>
+    <div class="hidden-sm-down col-sm-4"></div>
+  </div>
 </div>
 

@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnDestroy, OnInit, SimpleChange} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IAlbum} from '../../models/album.model';
 import {AlbumService} from '../../services/albums/albums.service';
 import swal from 'sweetalert2';
@@ -11,7 +11,7 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './albums.component.html',
   styleUrls: ['./albums.component.css']
 })
-export class AlbumsComponent implements OnInit, OnChanges, OnDestroy {
+export class AlbumsComponent implements OnInit, OnDestroy {
 
   public albums: IAlbum[];
   public currentPage: number;
@@ -50,10 +50,6 @@ export class AlbumsComponent implements OnInit, OnChanges, OnDestroy {
           confirmButtonText: 'OK'
         }
       ));
-  }
-
-  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-    console.log(changes);
   }
 
   ngOnDestroy(): void {

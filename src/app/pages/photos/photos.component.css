@@ -1,0 +1,44 @@
+.card-container {
+  /*border: 1px solid #737373;*/
+  display: inline-block;
+  margin: 0 30px 30px 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.card-text {
+  width: 300px;
+  padding: 10px;
+  background-color: #FFFFFF;
+}
+
+.card-footer {
+  width: 300px;
+  font-size: 10px;
+  background-color: #F6F6F6;
+}
+
+.overlay {
+  width: 300px;
+  height: 300px;
+  color: transparent;
+  font-size: 70px;
+  z-index: 2;
+  position: absolute;
+  background: transparent;
+  top: 0;
+}
+
+.overlay:hover {
+  background: rgba(0, 0, 0, 0.5);
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.search-icon {
+  margin-top: 35%
+}
+
+.search-bar {
+  margin: 25px 0 25px 0;
+}
