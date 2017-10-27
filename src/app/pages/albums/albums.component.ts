@@ -60,7 +60,7 @@ export class AlbumsComponent implements OnInit, OnDestroy {
 
   public goToPhotos(id: number) {
     const queryParams = {
-      album: id
+      albumId: id
     };
     this.router.navigate(['photos'], {queryParams});
   }

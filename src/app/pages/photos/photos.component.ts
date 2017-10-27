@@ -17,12 +17,12 @@ import 'rxjs/add/operator/do';
 export class PhotosComponent implements OnInit, OnDestroy {
   public photos: IPhoto[];
   public currentPage: number;
-  public page: number;
   public limit: number;
   public totalPages: number;
   public sortedPhotos: IPhoto[];
   public searchForm: FormGroup;
   public searchTerm: string;
+  public albumId: number;
   activedRouteSubscription: Subscription;
   searchTermSubscription: Subscription;
 
@@ -39,8 +39,8 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.activedRouteSubscription = this.activedRoute.queryParams.subscribe(
       (queryParams: any) => {
         this.currentPage = !!queryParams && !!queryParams['page'] ? parseInt(queryParams['page'], 10) : 1;
-        this.page = this.currentPage;
         this.searchTerm = !!queryParams && !!queryParams['searchTerm'] ? queryParams['searchTerm'] : '';
+        this.albumId = !!queryParams && !!queryParams['albumId'] ? parseInt(queryParams['albumId'], 10) : 1;
 
         console.log(`currentPage: ${this.currentPage}`);
 
@@ -79,7 +79,8 @@ export class PhotosComponent implements OnInit, OnDestroy {
                                       .do(searchTerm => {
                                         const queryParams = {
                                           page: this.currentPage,
-                                          searchTerm: !!searchTerm && searchTerm.length > 0 ? searchTerm : undefined
+                                          searchTerm: !!searchTerm && searchTerm.length > 0 ? searchTerm : undefined,
+                                          albumId: !!this.albumId ? this.albumId : undefined
                                         };
 
                                         this.router.navigate(['photos'], {queryParams});
@@ -112,15 +113,19 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   private sort() {
-    const filteredPhotos =
-      !!this.searchTerm && this.searchTerm.length > 0 ?
-        lodash.filter(lodash.cloneDeep(this.photos), (photo: IPhoto) => photo.title.indexOf(this.searchTerm) > -1) :
+    const filteredPhotosByAlbum =
+      !!this.albumId ?
+        lodash.filter(lodash.cloneDeep(this.photos), (photo: IPhoto) => photo.albumId === this.albumId) :
         lodash.cloneDeep(this.photos);
+    const filteredPhotosByTitle =
+      !!this.searchTerm && this.searchTerm.length > 0 ?
+        lodash.filter(lodash.cloneDeep(filteredPhotosByAlbum), (photo: IPhoto) => photo.title.indexOf(this.searchTerm) > -1) :
+        lodash.cloneDeep(filteredPhotosByAlbum);
     const realPage = this.currentPage - 1;
     const start = realPage > 0 ? realPage * this.limit : 0;
     const end = realPage > 0 ? (realPage + 1) * this.limit : this.limit;
-    this.totalPages = filteredPhotos.length;
-    this.sortedPhotos = lodash.cloneDeep(filteredPhotos).slice(start, end);
+    this.totalPages = filteredPhotosByTitle.length;
+    this.sortedPhotos = lodash.cloneDeep(filteredPhotosByTitle).slice(start, end);
   }
 
 }

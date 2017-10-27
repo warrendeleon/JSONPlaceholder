@@ -13,9 +13,9 @@
   </div>
 
   <div class="row">
-    <div class="col-12">
+    <div class="col-12 text-center">
       <div class="card-container" *ngFor="let photo of sortedPhotos">
-        <img [src]="photo.thumbnailUrl" class="card-thumbnail" style="height: 300px; width: 300px;">
+        <img [src]="photo.thumbnailUrl" class="card-thumbnail">
         <div class="overlay text-center" (click)="goToPhoto(photo.id)"><i class="fa fa-search search-icon" aria-hidden="true"></i></div>
         <div class="card-text">{{photo.title}}</div>
         <div class="card-footer">Id: {{photo.id}} | Album: {{photo.albumId}}</div>

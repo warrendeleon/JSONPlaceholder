@@ -7,22 +7,24 @@
 }
 
 .card-text {
-  width: 300px;
+  width: 150px;
   padding: 10px;
   background-color: #FFFFFF;
+  text-align: left;
 }
 
 .card-footer {
-  width: 300px;
+  width: 150px;
   font-size: 10px;
+  text-align: left;
   background-color: #F6F6F6;
 }
 
 .overlay {
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   color: transparent;
-  font-size: 70px;
+  font-size: 50px;
   z-index: 2;
   position: absolute;
   background: transparent;
